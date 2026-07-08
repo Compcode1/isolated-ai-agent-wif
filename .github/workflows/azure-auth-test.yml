@@ -1,0 +1,31 @@
+name: Microsoft Entra ID OIDC Authentication Test
+
+on:
+  workflow_dispatch: # Allows you to trigger this job manually from the UI
+
+permissions:
+  id-token: write  # CRITICAL: Permits the runner to request the OIDC JWT token
+  contents: read   # Allows the runner to read repository contents
+
+jobs:
+  validate-azure-trust:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Azure via OIDC WIF
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Test Least-Privilege Directory Access
+        uses: azure/cli@v2
+        with:
+          azcliversion: latest
+          inlineScript: |
+            echo "Successfully authenticated via Workload Identity Federation!"
+            echo "Testing Microsoft Graph API connection via Azure CLI..."
+            az ad signed-in-user show --query userPrincipalName
