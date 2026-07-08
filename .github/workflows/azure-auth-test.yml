@@ -29,4 +29,4 @@ jobs:
           inlineScript: |
             echo "Successfully authenticated via Workload Identity Federation!"
             echo "Testing Microsoft Graph API connection via Azure CLI..."
-            az ad signed-in-user show --query userPrincipalName
+            az account show
