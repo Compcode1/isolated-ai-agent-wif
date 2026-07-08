@@ -1,15 +1,16 @@
 name: Microsoft Entra ID OIDC Authentication Test
 
 on:
-  workflow_dispatch: # Allows you to trigger this job manually from the UI
+  workflow_dispatch:
 
 permissions:
-  id-token: write  # CRITICAL: Permits the runner to request the OIDC JWT token
-  contents: read   # Allows the runner to read repository contents
+  id-token: write
+  contents: read
 
 jobs:
   validate-azure-trust:
     runs-on: ubuntu-latest
+    environment: Production  # CRITICAL: Forces GitHub to issue an environment-scoped token
     steps:
       - name: Checkout Source Code
         uses: actions/checkout@v4
