@@ -33,4 +33,5 @@ jobs:
               --container-name vault-logs \
               --name connection-test.txt \
               --file connection-test.txt \
-              --auth-mode login
+              --auth-mode login \
+              --overwrite
